@@ -1,4 +1,4 @@
-import Vuex, {Store} from 'vuex'
+import Vuex, {CommitOptions, Store} from 'vuex'
 import Vue from 'vue'
 import {SecondArgument} from '@/type-helpers';
 
@@ -49,23 +49,15 @@ const mutations = {
   }
 };
 
-export const getters = {
+const getters = {
   todos(state: State) {
     return state.todos;
   }
 };
 
-export type MutationsType = typeof mutations
+type MutationsType = typeof mutations
 
-export function storeMutation<K extends keyof MutationsType>(store: Store<any>, command: K, payload: SecondArgument<MutationsType[K]>) {
-  store.commit(command, payload)
-}
-
-export type GettersType = typeof getters
-
-export function storeGetter<K extends keyof GettersType>(store: Store<any>, getter: K): ReturnType<GettersType[K]> {
-  return (store.getters as any)[getter]
-}
+type GettersType = typeof getters
 
 const store = new Store({
   strict: true,
@@ -75,3 +67,11 @@ const store = new Store({
 });
 
 export default store;
+
+export interface MyStore {
+  commit<K extends keyof MutationsType>(type: K, payload: SecondArgument<MutationsType[K]>, options?: CommitOptions): void
+
+  getters: {
+    [K in keyof GettersType]: ReturnType<GettersType[K]>
+  }
+}
