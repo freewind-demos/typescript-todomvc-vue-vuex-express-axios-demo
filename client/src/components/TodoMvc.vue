@@ -1,5 +1,5 @@
 <template>
-  <section class="todoapp">
+  <section class="todoapp" v-bind:reloadTrigger="reloadTrigger">
     <header class="header">
       <h1>todos</h1>
       <input autofocus="autofocus" autocomplete="off" placeholder="What needs to be done?" class="new-todo" @keyup.enter="createTodo" v-model="newTodo">

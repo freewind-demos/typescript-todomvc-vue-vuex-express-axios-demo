@@ -1,14 +1,15 @@
 import express from 'express'
 import todos from './routes/todos'
 import store from './store';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors());
+
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello, world');
-});
+app.use(express.static('../client/dist/'));
 
 app.use('/todos', todos);
 

@@ -17,14 +17,15 @@
   export default class App extends MyVue {
     currentPath: string | null = null;
 
-    mounted() {
+    async mounted() {
+      await this.myStore.dispatch('fetchTodos', undefined);
       this.onRouteChange(this.$route);
-      this.myStore.commit(`init`, undefined)
     }
 
     @Watch('$route')
     onRouteChange(to: {path: string}) {
       this.currentPath = to.path
     }
+
   }
 </script>

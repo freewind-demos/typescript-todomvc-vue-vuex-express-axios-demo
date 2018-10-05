@@ -12,9 +12,9 @@ type FilterType = {
 
 export default class extends MyVue {
 
-  get todos(): TodoItem[] {
-    return this.myStore.getters.todos;
-  }
+  get todos(): TodoItem[] { return this.myStore.getters.todos }
+
+  get reloadTrigger() { return this.myStore.state.reloadTrigger }
 
   newTodo: string = '';
   editingTodo: TodoItem | null = null;
@@ -60,24 +60,24 @@ export default class extends MyVue {
     return this.todos.filter(it => !it.completed).length
   }
 
-  createTodo() {
-    this.myStore.commit('addTodo', {
+  createTodo = async () => {
+    this.myStore.dispatch('addTodo', {
       content: this.newTodo,
       completed: false
     });
     this.newTodo = '';
   }
 
-  removeTodo(index: number) {
-    this.myStore.commit('removeTodo', index);
+  removeTodo = async (index: number) => {
+    await this.myStore.dispatch('removeTodo', index);
   }
 
-  toggleAll() {
-    this.myStore.commit('toggleAll', undefined);
+  toggleAll = async () => {
+    await this.myStore.dispatch('toggleAll', undefined);
   }
 
-  clearCompleted() {
-    this.myStore.commit('clearCompleted', undefined);
+  clearCompleted = async () => {
+    await this.myStore.dispatch('clearCompleted', undefined);
   }
 
   editTodo(todo: TodoItem) {
@@ -85,7 +85,7 @@ export default class extends MyVue {
     this.editingContent = todo.content;
   }
 
-  doneEdit(index: number) {
+  doneEdit = async (index: number) => {
     if (this.editingTodo === null) {
       return;
     }
@@ -96,9 +96,9 @@ export default class extends MyVue {
     this.editingTodo = null;
     this.editingContent = null;
     if (newTodo.content) {
-      this.myStore.commit('updateTodo', {index, newTodo: newTodo});
+      await this.myStore.dispatch('updateTodo', {index, newTodo: newTodo});
     } else {
-      this.myStore.commit('removeTodo', index);
+      await this.myStore.dispatch('removeTodo', index);
     }
   }
 
@@ -107,7 +107,7 @@ export default class extends MyVue {
     this.editingContent = null;
   }
 
-  toggleTodo(index: number) {
-    this.myStore.commit('toggleTodo', index)
+  toggleTodo = async (index: number) => {
+    await this.myStore.dispatch('toggleTodo', index)
   }
 }

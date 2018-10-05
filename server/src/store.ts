@@ -26,22 +26,6 @@ class Store {
     this.todos.splice(index, 1, newTodo)
   }
 
-  clearCompleted() {
-    this.todos = this.todos.filter(it => !it.completed)
-  }
-
-  toggleAll() {
-    if (this.todos.every(it => it.completed)) {
-      this.todos.forEach(it => it.completed = false)
-    } else {
-      this.todos.forEach(it => it.completed = true)
-    }
-  }
-
-  toggleTodo(index: number) {
-    this.todos[index].completed = !this.todos[index].completed
-  }
-
 }
 
 export default new Store()
